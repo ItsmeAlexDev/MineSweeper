@@ -122,9 +122,7 @@ public class CampoTest {
 	@Test
 	public void testAbrirMinadoNaoMarcado() {
 		campo.minar();
-		assertThrows(ExplosaoException.class, () -> {
-			campo.abrir();
-		});
+		assertThrows(ExplosaoException.class, () -> {campo.abrir();});
 	}
 	@Test
 	public void testVizinhacaSegura() {
@@ -154,5 +152,141 @@ public class CampoTest {
 		assertTrue(campo.isAberto());
 		assertFalse(campo2.isAberto());
 		assertFalse(campo1.isAberto());
+	}
+	@Test
+	public void testCoordenadasGetters() {
+		Campo campo1 = new Campo(3, 3);
+		Campo campo2 = new Campo(4, 4);
+		
+		assertEquals(5, campo.getLinha_X());
+		assertEquals(5, campo.getColuna_Y());
+
+		assertEquals(3, campo1.getLinha_X());
+		assertEquals(3, campo1.getColuna_Y());
+
+		assertEquals(4, campo2.getLinha_X());
+		assertEquals(4, campo2.getColuna_Y());
+	}
+	@Test
+	public void testToString() {
+		Campo campoMarcado = new Campo(1, 1);
+		Campo campoAbertoMinado = new Campo(1, 1);
+		Campo campoAbertoMinasNaVizinhaca = new Campo(1, 1);
+		Campo campoAberto = new Campo(1, 1);
+		Campo campoDefault = new Campo(1, 1);
+		
+		Campo campoVizinhoMinado = new Campo(1, 2);
+		campoVizinhoMinado.minar();
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado);
+		
+		campoMarcado.alternarMarcacao();
+		assertEquals("x", campoMarcado.toString());
+		
+		campoAbertoMinado.abrir();
+		campoAbertoMinado.minar();
+		assertEquals("*", campoAbertoMinado.toString());
+		
+		campoAbertoMinasNaVizinhaca.abrir();
+		assertEquals("1", campoAbertoMinasNaVizinhaca.toString());
+		
+		campoAberto.abrir();
+		assertEquals(" ", campoAberto.toString());
+		
+		assertEquals("?", campoDefault.toString());
+	}
+	@Test
+	public void minasVizinhacaToString() {
+		
+		Campo campoAbertoMinasNaVizinhaca = new Campo(2, 2);
+		campoAbertoMinasNaVizinhaca.abrir();
+		
+		Campo campoVizinhoMinado1 = new Campo(1, 1);
+		campoVizinhoMinado1.minar();
+		Campo campoVizinhoMinado2 = new Campo(1, 2);
+		campoVizinhoMinado2.minar();
+		Campo campoVizinhoMinado3 = new Campo(1, 3);
+		campoVizinhoMinado3.minar();
+		Campo campoVizinhoMinado4 = new Campo(2, 1);
+		campoVizinhoMinado4.minar();
+		Campo campoVizinhoMinado5 = new Campo(2, 3);
+		campoVizinhoMinado5.minar();
+		Campo campoVizinhoMinado6 = new Campo(3, 1);
+		campoVizinhoMinado6.minar();
+		Campo campoVizinhoMinado7 = new Campo(3, 2);
+		campoVizinhoMinado7.minar();
+		Campo campoVizinhoMinado8 = new Campo(3, 3);
+		campoVizinhoMinado8.minar();
+		
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado1);
+		assertEquals("1", campoAbertoMinasNaVizinhaca.toString());
+
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado2);
+		assertEquals("2", campoAbertoMinasNaVizinhaca.toString());
+
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado3);
+		assertEquals("3", campoAbertoMinasNaVizinhaca.toString());
+
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado4);
+		assertEquals("4", campoAbertoMinasNaVizinhaca.toString());
+
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado5);
+		assertEquals("5", campoAbertoMinasNaVizinhaca.toString());
+
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado6);
+		assertEquals("6", campoAbertoMinasNaVizinhaca.toString());
+
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado7);
+		assertEquals("7", campoAbertoMinasNaVizinhaca.toString());
+
+		campoAbertoMinasNaVizinhaca.addVizinho(campoVizinhoMinado8);
+		assertEquals("8", campoAbertoMinasNaVizinhaca.toString());
+	}
+	@Test
+	public void testReiniciar() {
+		campo.abrir();
+		campo.minar();
+		campo.marcar();
+		assertTrue(campo.isAberto());
+		assertTrue(campo.isMinado());
+		assertTrue(campo.isMarcado());
+		
+		campo.reiniciar();
+		
+		assertFalse(campo.isAberto());
+		assertFalse(campo.isMinado());
+		assertFalse(campo.isMarcado());
+	}
+	@Test
+	public void testObjetivo() {
+		Campo campoAbertoMinado = new Campo(1, 1);
+		campoAbertoMinado.abrir();
+		campoAbertoMinado.minar();
+		
+		Campo campoAbertoNaoMinado = new Campo(1, 1);
+		campoAbertoNaoMinado.abrir();
+		
+		Campo campoNaoAbertoMinado = new Campo(1, 1);
+		campoNaoAbertoMinado.minar();
+		
+		Campo campoNaoAbertoNaoMinado = new Campo(1, 1);
+		
+		Campo campoMinadoMarcado = new Campo(1, 1);
+		campoMinadoMarcado.minar();
+		campoMinadoMarcado.marcar();
+		
+		Campo campoMinadoNaoMarcado = new Campo(1, 1);
+		campoMinadoNaoMarcado.minar();
+		
+		Campo campoNaoMinadoNaoMarcado = new Campo(1, 1);
+		
+		assertTrue(campoMinadoMarcado.objetivoAlcancado());
+		assertTrue(campoAbertoNaoMinado.objetivoAlcancado());
+
+		assertFalse(campoAbertoMinado.objetivoAlcancado());
+		assertFalse(campoNaoAbertoNaoMinado.objetivoAlcancado());
+		assertFalse(campoNaoAbertoMinado.objetivoAlcancado());
+		assertFalse(campoMinadoNaoMarcado.objetivoAlcancado());
+		assertFalse(campoNaoMinadoNaoMarcado.objetivoAlcancado());
+		
 	}
 }
