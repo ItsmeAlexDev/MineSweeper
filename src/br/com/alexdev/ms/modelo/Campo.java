@@ -13,7 +13,6 @@ public class Campo {
 	private final int coluna_Y;
 	
 	private boolean minado;
-
 	private boolean aberto;
 	private boolean marcado;
 	
@@ -59,7 +58,7 @@ public class Campo {
 				throw new ExplosaoException();
 			
 			if (vizinhacaSegura())
-				vizinhos.forEach(v -> v.abrir());
+				vizinhos.forEach(vizinho -> vizinho.abrir());
 			
 			return true;
 		} else
@@ -68,7 +67,7 @@ public class Campo {
 	
 	
 	boolean vizinhacaSegura() {
-		return vizinhos.stream().noneMatch(v -> v.minado);
+		return vizinhos.stream().noneMatch(vizinho -> vizinho.isMinado());
 	}
 	
 	public boolean isMinado() {
@@ -96,7 +95,7 @@ public class Campo {
 	}
 	
 	long minasNaVizinhaca() {
-		return vizinhos.stream().filter(v -> v.minado).count();
+		return vizinhos.stream().filter(vizinho -> vizinho.minado).count();
 	}
 	
 	void reiniciar() {
