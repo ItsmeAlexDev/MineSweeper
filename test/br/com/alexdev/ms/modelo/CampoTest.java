@@ -73,6 +73,7 @@ public class CampoTest {
 	@Test
 	public void valorDefaultAberto() {
 		assertFalse(campo.isAberto());
+		assertTrue(campo.isFechado());
 	}
 	@Test
 	public void valorDefaultMinado() {
@@ -87,13 +88,14 @@ public class CampoTest {
 	public void testValorAbertoAposAbrir() {
 		campo.abrir();
 		assertTrue(campo.isAberto());
+		assertFalse(campo.isFechado());
 	}
 	@Test
 	public void valorDefaultMarcado() {
 		assertFalse(campo.isMarcado());
 	}
 	@Test
-	public void alternarMarcacao() {
+	public void testAlternarMarcacao() {
 		
 		assertFalse(campo.isMarcado());
 		
@@ -103,6 +105,16 @@ public class CampoTest {
 
 		campo.alternarMarcacao();
 		assertFalse(campo.isMarcado());
+	}
+	@Test
+	public void testMarcar() {
+		campo.marcar();
+		assertTrue(campo.isMarcado());
+	}
+	@Test
+	public void testDesmarcar() {
+		campo.desmarcar();
+		assertFalse(campo.isMarcado());		
 	}
 	@Test
 	public void testAbrirNaoMinadoNaoMarcado() {

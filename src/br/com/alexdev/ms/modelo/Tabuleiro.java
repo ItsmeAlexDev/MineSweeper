@@ -23,6 +23,22 @@ public class Tabuleiro {
 		
 		minarCampos();
 	}
+	
+	public void abrir(int linha, int coluna) {
+		campos.stream()
+			.filter(campo -> campo.getLinha_X() == linha &&
+			     	         campo.getColuna_Y() == coluna)
+			.findFirst()
+			.ifPresent(campo -> campo.abrir());
+	}
+	
+	public void alterarMarcacao(int linha, int coluna) {
+		campos.stream()
+			.filter(campo -> campo.getLinha_X() == linha &&
+			     	         campo.getColuna_Y() == coluna)
+			.findFirst()
+			.ifPresent(campo -> campo.alternarMarcacao());
+	}
 
 	private void gerarCampos() {
 		for (int linha = 0; linha < linhas; linha++)
@@ -73,5 +89,22 @@ public class Tabuleiro {
 
 	public int getCamposCount() {
 		return campos.size();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		int camposIndex = 0;
+		for (int linha = 0; linha < linhas; linha++) {
+			for (int coluna = 0; coluna < colunas; coluna++) {
+				sb.append(" ");
+				sb.append(campos.get(camposIndex));
+				sb.append(" ");
+				camposIndex++;
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 }

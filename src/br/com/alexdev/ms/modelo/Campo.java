@@ -46,6 +46,10 @@ public class Campo {
 		marcado = true;
 	}
 	
+	void desmarcar() {
+		marcado = false;
+	}
+	
 	void minar() {
 		minado = true;
 	}
@@ -80,6 +84,10 @@ public class Campo {
 	
 	public boolean isAberto() {
 		return aberto;
+	}
+	
+	public boolean isFechado() {
+		return !aberto;
 	}
 
 	public int getLinha_X() {
