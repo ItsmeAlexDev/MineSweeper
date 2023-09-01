@@ -69,7 +69,11 @@ public class TabuleiroTest {
 	}
 	@Test
 	public void testToString() {
-		String tabuleiro3x3Str = " ?  ?  ? " + "\n" + " ?  ?  ? " + "\n"+ " ?  ?  ? " + "\n";
+		String tabuleiro3x3Str = "   0  1  2  \n"
+							   + "0  ?  ?  ? \n"
+							   + "1  ?  ?  ? \n"
+							   + "2  ?  ?  ? \n";
 		assertEquals(tabuleiro3x3Str, tabuleiroPequeno.toString());
+		
 	}
 }

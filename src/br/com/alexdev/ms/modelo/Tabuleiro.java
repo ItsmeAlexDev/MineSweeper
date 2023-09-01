@@ -5,6 +5,8 @@ import static java.util.Collections.unmodifiableList;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.alexdev.ms.excecao.ExplosaoException;
+
 public class Tabuleiro {
 	
 	private int linhas;
@@ -20,16 +22,22 @@ public class Tabuleiro {
 		
 		gerarCampos();
 		associarVizinhos();
-		
 		minarCampos();
 	}
 	
 	public void abrir(int linha, int coluna) {
-		campos.stream()
-			.filter(campo -> campo.getLinha_X() == linha &&
-			     	         campo.getColuna_Y() == coluna)
-			.findFirst()
-			.ifPresent(campo -> campo.abrir());
+		try {
+			campos.stream()
+				.filter(campo -> campo.getLinha_X() == linha &&
+				     	         campo.getColuna_Y() == coluna)
+				.findFirst()
+				.ifPresent(campo -> campo.abrir());
+		} catch (ExplosaoException e) {
+			
+			campos.forEach(campo -> campo.setAberto(true));
+			
+			throw e;
+		}
 	}
 	
 	public void alterarMarcacao(int linha, int coluna) {
@@ -56,9 +64,9 @@ public class Tabuleiro {
 		long camposMinados = 0;
 		
 		while (camposMinados < minas) {
-			camposMinados = campos.stream().filter(campo -> campo.isMinado()).count();
 			int rnd = (int) (Math.random() * campos.size());
 			campos.get(rnd).minar();
+			camposMinados = campos.stream().filter(campo -> campo.isMinado()).count();
 		}
 	}
 
@@ -93,18 +101,26 @@ public class Tabuleiro {
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder stringbuilder = new StringBuilder();
+		
+		stringbuilder.append("   ");
+		
+		for (int index_coluna = 0; index_coluna < colunas; index_coluna++)
+			stringbuilder.append(index_coluna + "  ");
+		
+		stringbuilder.append("\n");
 		
 		int camposIndex = 0;
+
 		for (int linha = 0; linha < linhas; linha++) {
+			stringbuilder.append(linha + " ");
+			
 			for (int coluna = 0; coluna < colunas; coluna++) {
-				sb.append(" ");
-				sb.append(campos.get(camposIndex));
-				sb.append(" ");
+				stringbuilder.append(" " + campos.get(camposIndex) + " ");
 				camposIndex++;
 			}
-			sb.append("\n");
+			stringbuilder.append("\n");
 		}
-		return sb.toString();
+		return stringbuilder.toString();
 	}
 }

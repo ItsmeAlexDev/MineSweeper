@@ -29,7 +29,7 @@ public class TabuleiroConsole {
 			while (continuar) {
 				gameLoop();
 				
-				System.out.println("new game? (S/n)");
+				System.out.println("novo jogo? (S/n)");
 				String respostaInput = input.nextLine();
 				
 				if("n".equalsIgnoreCase(respostaInput))
@@ -38,7 +38,7 @@ public class TabuleiroConsole {
 					tabuleiro.reiniciarJogo();
 			}
 		} catch(SaidaException e) {
-			System.out.println("GAME OVER!");
+			System.out.println("FIM DE JOGO!");
 		} finally {
 			input.close();
 		}
@@ -56,17 +56,19 @@ public class TabuleiroConsole {
 					.map(e -> parseInt(e.trim()))
 					.iterator();
 				
-				input = getInput("1 - Abrir\n2 - (Des)Marcar");
+				input = getInput("1 - Abrir / 2 - (Des)Marcar");
 				
 				if ("1".equals(input))
 					tabuleiro.abrir(xy.next(), xy.next());
 				if ("2".equals(input))
 					tabuleiro.abrir(xy.next(), xy.next());
 			}
-			
-			System.out.println("you won :D");
+
+			System.out.println(tabuleiro);
+			System.out.println("Você ganhou, gg :D");
 		} catch (ExplosaoException e) {
-			System.out.println("you lost :/");
+			System.out.println(tabuleiro);
+			System.out.println("Você perdeu :/");
 		}
 	}
 	
