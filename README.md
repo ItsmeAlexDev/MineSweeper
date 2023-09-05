@@ -1,4 +1,4 @@
-# MineSweeper
+# MineSweeper 
 
 ### How to play:
  - Type in the coordinates of your choosing;
@@ -6,6 +6,9 @@
  - Repeat until all of the Board is open/marked;
 
     ![just some gameplay sc lol](https://imgur.com/Ga9y0J4.png)
+
+#### Input format:
+   ![just some input sc lol](https://imgur.com/UEqXfgr.png)
  
- (might remake this in the future)
+###### (might remake this in the future)
  
